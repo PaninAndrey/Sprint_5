@@ -1,42 +1,48 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from data import *
+from locators import *
 
-from data import Wrong_Credentials
-from helper import generate_registration_data
-from locators import Locators
-from curl import *
-import time
 
-class TestRegistrationWithNewCredentials:
+class TestLogInByLogInButton:
 
-    def test_sucsess_registration(self, driver):
-        name, email, password = generate_registration_data()
-        driver.find_element(*Locators.PA_BUTTON).click()
-        driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.NAME_FIELD).click()
-        driver.find_element(*Locators.NAME_INPUT).send_keys(name)
-        driver.find_element(*Locators.EMAIL_FIELD).click()
-        driver.find_element(*Locators.EMAIL_INPUT).send_keys(email)
-        driver.find_element(*Locators.PASSWORD_FIELD).click()
-        driver.find_element(*Locators.PASSWORD_INPUT).send_keys(password)
-        driver.find_element(*Locators.REGISTER_BUTTON).click()
-        time.sleep(2)
-        reg_text = driver.find_element(*Locators.REG_TITLE).text
+    def test_success_log_in_by_log_in_button(self, driver, login):
+        log_in_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LocatorsForLogIn.ORDER_BUTTON)).text
+        assert log_in_text == 'Оформить заказ'
 
-        assert reg_text == 'Вход'
-        assert driver.current_url == main_site + 'login'
 
-class TestCheckingCreationWithWrongCredentials:
+class TestLogInByPersonalAccountButton:
 
-    def test_failed_registration(self, driver):
-        driver.find_element(*Locators.PA_BUTTON).click()
-        driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.NAME_FIELD).click()
-        driver.find_element(*Locators.NAME_INPUT).send_keys(Wrong_Credentials.name)
-        driver.find_element(*Locators.EMAIL_FIELD).click()
-        driver.find_element(*Locators.EMAIL_INPUT).send_keys(Wrong_Credentials.email)
-        driver.find_element(*Locators.PASSWORD_FIELD).click()
-        driver.find_element(*Locators.PASSWORD_INPUT).send_keys(Wrong_Credentials.password)
-        driver.find_element(*Locators.REGISTER_BUTTON).click()
-        reg_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.INVALID_PASSWORD_POPUP)).text
-        assert reg_text == 'Некорректный пароль'
+    def test_success_log_in_by_personal_account_button(self, driver):
+        driver.find_element(*LocatorsForLogIn.PA_BUTTON).click()
+        driver.find_element(*LocatorsForLogIn.EMAIL_INPUT_LOG_IN).send_keys(RightCredentials.email)
+        driver.find_element(*LocatorsForLogIn.PASSWORD_INPUT_LOG_IN).send_keys(RightCredentials.password)
+        driver.find_element(*LocatorsForLogIn.ENTER_BUTTON_CLICK).click()
+        log_in_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LocatorsForLogIn.ORDER_BUTTON)).text
+        assert log_in_text == 'Оформить заказ'
+
+
+class TestLogInByButtonInRegistrationForm:
+
+    def test_success_log_in_by_button_in_registration_form(self, driver):
+        driver.find_element(*LocatorsForLogIn.PA_BUTTON).click()
+        driver.find_element(*Locators.REG_TITLE).click()
+        driver.find_element(*LocatorsForLogIn.ENTER_TITLE).click()
+        driver.find_element(*LocatorsForLogIn.EMAIL_INPUT_LOG_IN).send_keys(RightCredentials.email)
+        driver.find_element(*LocatorsForLogIn.PASSWORD_INPUT_LOG_IN).send_keys(RightCredentials.password)
+        driver.find_element(*LocatorsForLogIn.ENTER_BUTTON_CLICK).click()
+        log_in_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LocatorsForLogIn.ORDER_BUTTON)).text
+        assert log_in_text == 'Оформить заказ'
+
+
+class TestLogInByButtonInPasswordRecoveryForm:
+
+    def test_success_log_in_by_button_in_password_recovery_form(self, driver):
+        driver.find_element(*Locators.LOG_IN_BUTTON).click()
+        driver.find_element(*LocatorsForLogIn.PASSWORD_RECOVERY_BUTTON).click()
+        driver.find_element(*LocatorsForLogIn.ENTER_TITLE).click()
+        driver.find_element(*LocatorsForLogIn.EMAIL_INPUT_LOG_IN).send_keys(RightCredentials.email)
+        driver.find_element(*LocatorsForLogIn.PASSWORD_INPUT_LOG_IN).send_keys(RightCredentials.password)
+        driver.find_element(*LocatorsForLogIn.ENTER_BUTTON_CLICK).click()
+        log_in_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LocatorsForLogIn.ORDER_BUTTON)).text
+        assert log_in_text == 'Оформить заказ'

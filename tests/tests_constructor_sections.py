@@ -1,18 +1,37 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
 from data import *
 from locators import *
 
+
 class TestConstructorSwitchToRollsSection:
 
-    def test_success_switch_to_rolls_section(self, driver):
-        driver.find_element(*LocatorsForLogIn.LOG_IN_BUTTON).click()
-        driver.find_element(*LocatorsForLogIn.EMAIL_FIELD_LOG_IN).click()
-        driver.find_element(*LocatorsForLogIn.EMAIL_INPUT_LOG_IN).send_keys(Right_Credentials.email)
-        driver.find_element(*LocatorsForLogIn.PASSWORD_FIELD_LOG_IN).click()
-        driver.find_element(*LocatorsForLogIn.PASSWORD_INPUT_LOG_IN).send_keys(Right_Credentials.password)
-        driver.find_element(*LocatorsForLogIn.REGISTER_BUTTON).click()
-        log_in_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LocatorsForLogIn.ORDER_BUTTON)).text
-        assert log_in_text == 'Оформить заказ'
+    def test_success_switch_to_rolls_section(self, driver, login):
+        WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.SAUCES_BUTTON, "Соусы"))
+        driver.find_element(*LocatorsForLogIn.SAUCES_BUTTON).click()
+        driver.find_element(*LocatorsForLogIn.ROLLS_BUTTON).click()
+        rolls_title = WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.ROLLS_SECTION_TITLE, "Булки"))
+        assert rolls_title
+
+
+class TestConstructorSwitchToSaucesSection:
+
+    def test_success_switch_to_sauces_section(self, driver, login):
+        WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.SAUCES_BUTTON, "Соусы"))
+        driver.find_element(*LocatorsForLogIn.SAUCES_BUTTON).click()
+        sauces_title = WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.SAUCES_SECTION_TITLE, "Соусы"))
+        assert sauces_title
+
+
+class TestConstructorSwitchToToppingsSection:
+
+    def test_success_switch_to_toppings_section(self, driver, login):
+        WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.TOPPINGS_BUTTON, "Начинки"))
+        driver.find_element(*LocatorsForLogIn.TOPPINGS_BUTTON).click()
+        toppings_title = WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.TOPPINGS_SECTION_TITLE, "Начинки"))
+        assert toppings_title
+
+
+
+
 

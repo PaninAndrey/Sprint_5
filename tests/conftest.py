@@ -1,15 +1,15 @@
 import pytest
-import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
-
 from curl import *
-from data import Wrong_Credentials
-from locators import Locators
+from data import RightCredentials
+from locators import *
 
 
-@pytest.fixture(scope="session")
+# Фикстура для запуска браузера и закрытия окна
+# браузера после выполнения теста
+
+@pytest.fixture(scope="function")
 def driver():
     options = Options()
     options.add_argument("--window-size=1200,600")
@@ -19,38 +19,12 @@ def driver():
     browser.quit()
 
 
+# Фикстура для авторизации зарегистрированного пользователя:
+
 @pytest.fixture
 def login(driver):
-    """
-    Фикстура для авторизации пользователя.
-    """
-    # Вводим email в поле "Email"
-    driver.find_element(*Locators.EMAIL).send_keys(Credentials.email)
-    driver.find_element(*Locators.PASSWORD).send_keys(Credentials.password)
-    driver.find_element(*Locators.REGISTER_BUTTON).click()
-
+    driver.find_element(*Locators.LOG_IN_BUTTON).click()
+    driver.find_element(*LocatorsForLogIn.EMAIL_INPUT_LOG_IN).send_keys(RightCredentials.email)
+    driver.find_element(*LocatorsForLogIn.PASSWORD_INPUT_LOG_IN).send_keys(RightCredentials.password)
+    driver.find_element(*LocatorsForLogIn.ENTER_BUTTON_CLICK).click()
     return driver
-
-@pytest.fixture()
-def revert_avatar():
-    # Учётные данные пользователя
-    credentials = {
-        "email": Credentials.email,
-        "password": Credentials.password,
-    }
-
-    # Авторизация
-    response = requests.post(auth_endpoint, json=credentials)
-    token = response.json().get("token")
-
-    # Обновление аватара
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json",
-    }
-    update_data = {
-        "avatar": default_ava_url,
-    }
-    requests.patch(avatar_update_endpoint, json=update_data, headers=headers)
-
-    yield
