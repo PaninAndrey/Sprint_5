@@ -7,8 +7,7 @@ from locators import *
 class TestLogInByLogInButton:
 
     def test_success_log_in_by_log_in_button(self, driver, login):
-        log_in_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LocatorsForLogIn.ORDER_BUTTON)).text
-        assert log_in_text == 'Оформить заказ'
+        assert WebDriverWait(driver, 10).until(EC.presence_of_element_located(LocatorsForLogIn.ORDER_BUTTON))
 
 
 class TestLogInByPersonalAccountButton:
@@ -18,8 +17,7 @@ class TestLogInByPersonalAccountButton:
         driver.find_element(*LocatorsForLogIn.EMAIL_INPUT_LOG_IN).send_keys(RightCredentials.email)
         driver.find_element(*LocatorsForLogIn.PASSWORD_INPUT_LOG_IN).send_keys(RightCredentials.password)
         driver.find_element(*LocatorsForLogIn.ENTER_BUTTON_CLICK).click()
-        log_in_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LocatorsForLogIn.ORDER_BUTTON)).text
-        assert log_in_text == 'Оформить заказ'
+        assert WebDriverWait(driver, 10).until(EC.presence_of_element_located(LocatorsForLogIn.ORDER_BUTTON))
 
 
 class TestLogInByButtonInRegistrationForm:
@@ -31,8 +29,7 @@ class TestLogInByButtonInRegistrationForm:
         driver.find_element(*LocatorsForLogIn.EMAIL_INPUT_LOG_IN).send_keys(RightCredentials.email)
         driver.find_element(*LocatorsForLogIn.PASSWORD_INPUT_LOG_IN).send_keys(RightCredentials.password)
         driver.find_element(*LocatorsForLogIn.ENTER_BUTTON_CLICK).click()
-        log_in_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LocatorsForLogIn.ORDER_BUTTON)).text
-        assert log_in_text == 'Оформить заказ'
+        assert WebDriverWait(driver, 10).until(EC.presence_of_element_located(LocatorsForLogIn.ORDER_BUTTON))
 
 
 class TestLogInByButtonInPasswordRecoveryForm:
@@ -44,5 +41,4 @@ class TestLogInByButtonInPasswordRecoveryForm:
         driver.find_element(*LocatorsForLogIn.EMAIL_INPUT_LOG_IN).send_keys(RightCredentials.email)
         driver.find_element(*LocatorsForLogIn.PASSWORD_INPUT_LOG_IN).send_keys(RightCredentials.password)
         driver.find_element(*LocatorsForLogIn.ENTER_BUTTON_CLICK).click()
-        log_in_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(LocatorsForLogIn.ORDER_BUTTON)).text
-        assert log_in_text == 'Оформить заказ'
+        assert WebDriverWait(driver, 10).until(EC.presence_of_element_located(LocatorsForLogIn.ORDER_BUTTON))

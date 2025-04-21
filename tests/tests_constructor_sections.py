@@ -1,8 +1,7 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from data import *
 from locators import *
-
+import time
 
 class TestConstructorSwitchToRollsSection:
 
@@ -10,8 +9,8 @@ class TestConstructorSwitchToRollsSection:
         WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.SAUCES_BUTTON, "Соусы"))
         driver.find_element(*LocatorsForLogIn.SAUCES_BUTTON).click()
         driver.find_element(*LocatorsForLogIn.ROLLS_BUTTON).click()
-        rolls_title = WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.ROLLS_SECTION_TITLE, "Булки"))
-        assert rolls_title
+        active_tab = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'tab_type_current')]/span[contains(text(),'Булки')]")))
+        assert active_tab.is_displayed()
 
 
 class TestConstructorSwitchToSaucesSection:
@@ -19,8 +18,8 @@ class TestConstructorSwitchToSaucesSection:
     def test_success_switch_to_sauces_section(self, driver, login):
         WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.SAUCES_BUTTON, "Соусы"))
         driver.find_element(*LocatorsForLogIn.SAUCES_BUTTON).click()
-        sauces_title = WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.SAUCES_SECTION_TITLE, "Соусы"))
-        assert sauces_title
+        active_tab = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'tab_type_current')]/span[contains(text(),'Соусы')]")))
+        assert active_tab.is_displayed()
 
 
 class TestConstructorSwitchToToppingsSection:
@@ -28,8 +27,8 @@ class TestConstructorSwitchToToppingsSection:
     def test_success_switch_to_toppings_section(self, driver, login):
         WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.TOPPINGS_BUTTON, "Начинки"))
         driver.find_element(*LocatorsForLogIn.TOPPINGS_BUTTON).click()
-        toppings_title = WebDriverWait(driver, 10).until(EC.text_to_be_present_in_element(LocatorsForLogIn.TOPPINGS_SECTION_TITLE, "Начинки"))
-        assert toppings_title
+        active_tab = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'tab_type_current')]/span[contains(text(),'Начинки')]")))
+        assert active_tab.is_displayed()
 
 
 
